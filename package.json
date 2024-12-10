@@ -1,0 +1,21 @@
+{
+    "name": "ark1-project",
+      "version": "1.0.0",
+        "main": "index.js",
+          "scripts": {
+              "test": "echo \"Error: no test specified\" && exit 1"
+                },
+                  "repository": {
+                      "type": "git",
+                          "url": "https://github.com/xafelynk1/ark1-project.git"
+                            },
+                              "keywords": [
+                                  "ark",
+                                      "project"
+                                        ],
+                                          "license": "MIT",
+                                            "bugs": {
+                                                "url": "https://github.com/xafelynk1/ark1-project/issues"
+                                                  },
+                                                    "homepage": "https://github.com/xafelynk1/ark1-project#readme"
+                                                    }
