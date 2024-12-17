@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARK1 | Empower Your Knowledge</title>
+  <link rel="stylesheet" href="public/css/style.css">
+  <link rel="stylesheet" href="public/css/animation.css">
+  <script defer src="public/js/quiz-auth.js"></script>
+  <script defer src="public/js/live-feed.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title"> <span>ARK1</span></h1>
+      <p class="hero-subtitle">Your ultimate hub for eBooks, quizzes, and enriching content.</p>
+      <a href="#wallet" class="cta-btn">Explore Now</a>
+    </div>
+    <div class="hero-overlay"></div>
+  </header>
+
+  <!-- Wallet Section -->
+  <section id="wallet" class="wallet-section">
+    <h2 class="section-title">Wallet</h2>
+    <p class="balance-display">Current Balance: <strong>₦0.00</strong></p>
+    <div class="wallet-actions">
+      <button class="wallet-btn" onclick="window.location.href='/fund'">Fund Wallet</button>
+      <button class="wallet-btn" onclick="window.location.href='/withdraw'">Withdraw Funds</button>
+      <button class="wallet-btn" onclick="window.location.href='/buy-ebook'">Buy eBooks</button>
+    </div>
+  </section>
+
+  <!-- Featured eBook Section -->
+  <section class="poster-section">
+    <h2 class="section-title">Featured eBooks</h2>
+    <div class="poster-slider">
+      <button class="nav-btn left-btn" onclick="navigatePoster('prev')">&#9664;</button>
+      <div class="poster">
+        <img src="https://via.placeholder.com/300x400" alt="eBook Poster">
+        <h3 class="poster-title">Book Title</h3>
+        <p class="poster-price">Price: ₦1,500</p>
+        <button class="purchase-btn" onclick="window.location.href='/buy/1'">Buy Now</button>
+      </div>
+      <button class="nav-btn right-btn" onclick="navigatePoster('next')">&#9654;</button>
+    </div>
+  </section>
+
+  <!-- eBook Gallery -->
+  <section class="ebook-gallery">
+    <h2 class="section-title">Discover More eBooks</h2>
+    <div class="ebook-grid">
+      <div class="ebook-card">
+        <img src="https://via.placeholder.com/150x200" alt="eBook">
+        <h3 class="ebook-title">eBook Title</h3>
+        <p class="ebook-price">₦10</p>
+        <button class="purchase-btn" onclick="window.location.href='/buy/2'">Buy</button>
+        <div class="timer">Time Left: 00:10:00</div>
+      </div>
+      <!-- Additional eBook cards here -->
+    </div>
+  </section>
+
+  <!-- Live Feed Section -->
+  <section class="live-feed-section">
+    <h2 class="section-title">Live Updates</h2>
+    <div class="live-feed-container">
+      <div class="live-feed-item">
+        <h3>Event Update</h3>
+        <p>New eBook "Mastery of Logic" is now available!</p>
+        <span class="feed-time">Just now</span>
+      </div>
+      <div class="live-feed-item">
+        <h3>Quiz Alert</h3>
+        <p>Join our live quiz at 4 PM today.</p>
+        <span class="feed-time">5 mins ago</span>
+      </div>
+      <!-- Additional live feed items dynamically updated -->
+    </div>
+  </section>
+
+  <!-- Quiz Section -->
+  <section class="quiz-section">
+    <h2 class="section-title">Live Quiz Challenge</h2>
+    <p>Test your knowledge and win amazing prizes!</p>
+    <button class="quiz-btn" onclick="joinQuiz()">Join Quiz</button>
+  </section>
+
+  <!-- Leaderboard Section -->
+  <section class="leaderboard-section">
+    <h2 class="section-title">Leaderboard</h2>
+    <ul class="leaderboard">
+      <li><strong>1.</strong> User A - 150 points</li>
+      <li><strong>2.</strong> User B - 120 points</li>
+      <li><strong>3.</strong> User C - 100 points</li>
+      <!-- Dynamically fetched leaderboard -->
+    </ul>
+  </section>
+
+  <!-- Blog Section -->
+  <section id="blog" class="blog-section">
+    <h2 class="section-title">From Our Blog</h2>
+    <div class="blog-posts">
+      <div class="blog-post">
+        <h3>Blog Title</h3>
+        <p>Explore our latest insights and articles.</p>
+        <a href="/blog/1" class="read-more">Read More</a>
+      </div>
+      <!-- Additional blog posts dynamically loaded -->
+    </div>
+  </section>
+
+  <!-- Support Section -->
+  <a href="/support" class="floating-support-btn">Support</a>
+
+  <!-- Footer -->
+  <footer>
+    <ul class="footer-links">
+      <li><a href="#about-us">About Us</a></li>
+      <li><a href="#privacy-policy">Privacy Policy</a></li>
+    </ul>
+    <p>© 2024 ARK1. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function joinQuiz() {
+      fetch('/check-authorization')
+        .then(response => response.json())
+        .then(data => {
+          if (data.isAuthorized) {
+            window.location.href = '/quiz';
+          } else {
+            alert('Authorization required to join the quiz.');
+          }
+        });
+    }
+
+    function navigatePoster(direction) {
+      // Logic to navigate posters (carousel-like)
+    }
+
+    // Live feed logic
+    const liveFeedContainer = document.querySelector('.live-feed-container');
+    function addLiveFeed(message) {
+      const feedItem = document.createElement('div');
+      feedItem.className = 'live-feed-item';
+      feedItem.innerHTML = `
+        <h3>Update</h3>
+        <p>${message}</p>
+        <span class="feed-time">${new Date().toLocaleTimeString()}</span>
+      `;
+      liveFeedContainer.prepend(feedItem);
+      if (liveFeedContainer.children.length > 10) {
+        liveFeedContainer.removeChild(liveFeedContainer.lastChild);
+      }
+    }
+
+    setInterval(() => {
+      addLiveFeed('A new event just occurred at ' + new Date().toLocaleTimeString());
+    }, 6000);
+  </script>
+</body>
+</html>
