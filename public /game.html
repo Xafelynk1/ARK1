@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARK1 | Empower Your Knowledge</title>
+  <link rel="stylesheet" href="public/css/style.css">
+  <link rel="stylesheet" href="public/css/animation.css">
+  <script defer src="public/js/quiz-auth.js"></script>
+  <script defer src="public/js/live-feed.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">ARK1</h1>
+      <p class="hero-subtitle">Your ultimate hub for eBooks, quizzes, and enriching content.</p>
+    </div>
+    <div class="hero-overlay"></div>
+  </header>
+
+  <!-- Game/Group Chat Section -->
+  <section class="game-chat-section">
+    <h2 class="section-title">Live Group Chat</h2>
+
+    <!-- Question Box (Initially hidden) -->
+    <div id="question-box" class="question-box" style="display: none;">
+      <h3 id="question-text">Admin: What is the capital of Nigeria?</h3>
+      <div id="timer" class="timer">Time Left: 00:00:00</div>
+      <div class="winner-info">
+        <p><strong>Winner:</strong> <span id="winner-name">John Doe</span></p>
+        <p><strong>Points:</strong> <span id="winner-points">50</span></p>
+      </div>
+    </div>
+
+    <!-- Message Feed -->
+    <div class="message-feed">
+      <div class="message-item admin-message">
+        <p><strong>Admin:</strong> Welcome to the live quiz chat! Answer the question posted above.</p>
+      </div>
+      <!-- Additional chat messages dynamically added -->
+    </div>
+
+    <!-- Message Input and Send Button -->
+    <div class="message-input-container">
+      <textarea id="message-input" placeholder="Type your answer..."></textarea>
+      <button id="send-message-btn" class="send-btn">Send</button>
+    </div>
+
+    <!-- Image Upload Option (Optional) -->
+    <div class="image-upload-container">
+      <input type="file" id="image-upload" accept="image/*">
+      <button class="upload-btn">Upload Image</button>
+    </div>
+
+    <!-- Optional Quiz Section -->
+    <section class="quiz-section">
+      <h2 class="section-title">Join the Quiz Challenge</h2>
+      <p>Test your knowledge and join the live group chat above!</p>
+      <button class="quiz-btn" onclick="joinQuiz()">Join Quiz</button>
+    </section>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <ul class="footer-links">
+      <li><a href="#about-us">About Us</a></li>
+      <li><a href="#privacy-policy">Privacy Policy</a></li>
+    </ul>
+    <p>© 2024 ARK1. All rights reserved.</p>
+  </footer>
+
+  <!-- Go Back Home Button -->
+  <a href="/home" class="go-home-btn">Go Back Home</a>
+
+  <script>
+    // Function to join quiz
+    function joinQuiz() {
+      fetch('/check-authorization')
+        .then(response => response.json())
+        .then(data => {
+          if (data.isAuthorized) {
+            window.location.href = '/quiz';
+          } else {
+            alert('Authorization required to join the quiz.');
+          }
+        });
+    }
+
+    // Function to send messages
+    document.getElementById('send-message-btn').addEventListener('click', () => {
+      const message = document.getElementById('message-input').value;
+      if (message.trim()) {
+        const messageFeed = document.querySelector('.message-feed');
+        const messageItem = document.createElement('div');
+        messageItem.classList.add('message-item');
+        messageItem.innerHTML = `<p><strong>You:</strong> ${message}</p>`;
+        messageFeed.appendChild(messageItem);
+        document.getElementById('message-input').value = ''; // Clear input
+      }
+    });
+
+    // Function to handle the timer (starts when Admin posts a question)
+    function startTimer(duration) {
+      let timer = duration;
+      const timerDisplay = document.getElementById('timer');
+      const interval = setInterval(() => {
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+        timerDisplay.textContent = `Time Left: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        if (timer <= 0) {
+          clearInterval(interval);
+          alert('Time is up!');
+        }
+        timer--;
+      }, 1000);
+    }
+
+    // Function to simulate Admin posting a question (Admin should trigger this)
+    function postQuestion() {
+      const questionBox = document.getElementById('question-box');
+      questionBox.style.display = 'block'; // Show the question box
+      startTimer(180); // Example: Admin sets the timer for 3 minutes
+    }
+
+    // Ensure that the question and timer are hidden on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const questionBox = document.getElementById('question-box');
+      questionBox.style.display = 'none'; // Hide the question box initially
+    });
+
+    // Admin trigger function (you can link this to a button in your admin panel)
+    document.getElementById('post-question-btn')?.addEventListener('click', postQuestion); // Button click event
+  </script>
+</body>
+</html>

@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const walletBalanceDisplay = document.querySelector('.balance-display');
   const liveFeedContainer = document.querySelector('.live-feed-container');
   const posterContainer = document.querySelector('.poster-slider');
+  const chatDisplay = document.getElementById('chat-display');
+  const chatInput = document.getElementById('chat-input');
   
   // Fetch Wallet Balance
   async function fetchWalletBalance() {
@@ -57,6 +59,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Attach Purchase Button Events
+  function attachPurchaseEvents() {
+    const purchaseButtons = document.querySelectorAll('.purchase-btn');
+    purchaseButtons.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const posterId = e.target.dataset.id;
+        purchasePoster(posterId);
+      });
+    });
+  }
+
   // Purchase Poster
   async function purchasePoster(posterId) {
     try {
@@ -75,17 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) {
       console.error('Error processing purchase:', err);
     }
-  }
-
-  // Attach Purchase Button Events
-  function attachPurchaseEvents() {
-    const purchaseButtons = document.querySelectorAll('.purchase-btn');
-    purchaseButtons.forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const posterId = e.target.dataset.id;
-        purchasePoster(posterId);
-      });
-    });
   }
 
   // Fund Wallet
@@ -134,8 +136,101 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Socket for chat messages
+  const socket = io();
+
+  // Handle chat message sending
+  function sendMessage(event) {
+    if (event.key === 'Enter') {
+      const message = chatInput.value;
+      if (message.trim() !== '') {
+        socket.emit('chat-message', message);
+        chatInput.value = ''; // Clear input
+      }
+    }
+  }
+
+  // Listen for incoming chat messages
+  socket.on('chat-message', (message) => {
+    const newMessage = document.createElement('div');
+    newMessage.innerText = message;
+    chatDisplay.appendChild(newMessage);
+  });
+
   // Initialize Data
   fetchWalletBalance();
   fetchLiveFeed();
   fetchPosters();
-});
+
+  // Quiz Logic Integration
+
+  let quizStarted = false;
+  let currentQuestionIndex = 0;
+  const questions = [
+    { question: "What is 2 + 2?", answer: "4" },
+    { question: "What is 3 + 5?", answer: "8" },
+    // Add more questions as needed
+  ];
+
+  let timerInterval;
+
+  function startQuiz() {
+    if (!quizStarted) {
+      quizStarted = true;
+      socket.emit('start-quiz');
+      displayQuestion();
+      startTimer();
+    }
+  }
+
+  function displayQuestion() {
+    const question = questions[currentQuestionIndex];
+    document.getElementById('current-question').innerText = `Question ${currentQuestionIndex + 1}: ${question.question}`;
+    document.getElementById('timer-countdown').innerText = "30";  // Reset timer
+  }
+
+  function nextQuestion() {
+    if (quizStarted && currentQuestionIndex < questions.length - 1) {
+      currentQuestionIndex++;
+      displayQuestion();
+      resetTimer();
+    }
+  }
+
+  function endQuiz() {
+    clearInterval(timerInterval);
+    document.getElementById('current-question').innerText = "Quiz Ended!";
+    document.getElementById('timer-countdown').innerText = "0";  // Stop timer
+    socket.emit('end-quiz');
+  }
+
+  function startTimer() {
+    let timeLeft = 30;
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      document.getElementById('timer-countdown').innerText = timeLeft;
+      if (timeLeft === 0) {
+        clearInterval(timerInterval);
+        nextQuestion();
+      }
+    }, 1000);
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    startTimer();
+  }
+
+  // Socket event listeners for quiz actions
+  socket.on('quiz-started', () => {
+    startQuiz();
+  });
+
+  socket.on('quiz-ended', () => {
+    endQuiz();
+  });
+
+  // Chat Input Event Listener
+  chatInput.addEventListener('keypress', sendMessage);
+
+}); 
