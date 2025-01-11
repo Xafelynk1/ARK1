@@ -1,0 +1,25 @@
+{
+    "name": "ark1-project",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/xafelynk1/ark1-project.git"
+    },
+    "keywords": [
+        "ark",
+        "project"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/xafelynk1/ark1-project/issues"
+    },
+    "homepage": "https://github.com/xafelynk1/ark1-project#readme",
+    "dependencies": {
+        "axios": "^1.7.9"
+    },
+    "devDependencies": {}
+}
