@@ -19,7 +19,11 @@
     },
     "homepage": "https://github.com/xafelynk1/ark1-project#readme",
     "dependencies": {
-        "axios": "^1.7.9"
+        "axios": "^1.7.9",
+        "paystack": "^2.0.1"
     },
-    "devDependencies": {}
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "supertest": "^7.0.0"
+    }
 }
