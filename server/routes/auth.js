@@ -1,36 +1,44 @@
 const express = require('express');
-const NeDB = require('nedb');
-const User = require('../models/User');
+const { Pool } = require('pg');
 const router = express.Router();
 
-// Initialize NeDB
-const db = new NeDB({ filename: 'server/database/users.db', autoload: true });
+// Initialize PostgreSQL client
+const pool = new Pool({
+    connectionString: 'postgresql://postgres:LViNhwXOeVyxooLBTpoWLuXPRPEavFNH@monorail.proxy.rlwy.net:32474/railway',
+});
 
 // User registration route
-router.post('/register', (req, res) => {
-    const { surname, firstname, dob, email, phone, password } = req.body;
-    const user = new User(surname, firstname, dob, email, phone, password);
+router.post('/register', async (req, res) => {
+    const { username, password, surname, email, dob } = req.body;
+    if (!username || !password || !surname || !email || !dob) {
+        return res.status(400).json({ error: 'All fields are required' });
+    }
 
-    // Save user to the database
-    db.insert(user, (err, newUser) => {
-        if (err) {
-            return res.status(400).json({ error: 'Error registering user' });
-        }
-        res.status(201).json({ message: 'User registered successfully', user: newUser });
-    });
+    try {
+        const result = await pool.query('INSERT INTO "users" (username, password, surname, email, dob) VALUES ($1, $2, $3, $4, $5) RETURNING *', 
+            [username, password, surname, email, dob]);
+        res.status(201).json({ message: 'User registered successfully', user: result.rows[0] });
+    } catch (err) {
+        console.error('Error registering user:', err); // Log the error for debugging
+        return res.status(400).json({ error: 'Error registering user' });
+    }
 });
 
 // User login route
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
-    // Find user in the database
-    db.findOne({ email, password }, (err, user) => {
-        if (err || !user) {
+    try {
+        const result = await pool.query('SELECT * FROM "users" WHERE email = $1 AND password = $2', [email, password]);
+        const user = result.rows[0];
+        if (!user) {
             return res.status(400).json({ error: 'Invalid email or password' });
         }
         res.status(200).json({ message: 'User logged in successfully', user });
-    });
+    } catch (err) {
+        console.error('Error logging in:', err); // Log the error for debugging
+        return res.status(400).json({ error: 'Error logging in' });
+    }
 });
 
 module.exports = router;
