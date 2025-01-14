@@ -4,184 +4,68 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ARK1 | Empower Your Knowledge</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/animation.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Header -->
-  <header class="hero-section">
-    <div class="hero-content">
-      <h1 class="hero-title">Welcome to <span>ARK1</span></h1>
-      <p class="hero-subtitle">Your ultimate hub for eBooks, quizzes, and enriching content.</p>
-      <a href="#wallet" class="cta-btn">Explore Now</a>
+  <h1>WELCOME TO ARK1</h1>
+  <p>Your ultimate hub for eBooks, quizzes, and enriching content.</p>
+  <p>Explore Now</p>
+
+  <div id="submissions">
+    <h2>Latest Submissions</h2>
+    <div id="quizzes">
+      <h3>Quizzes</h3>
+      <ul id="quiz-list"></ul>
     </div>
-    <div class="hero-overlay"></div>
-  </header>
-
-  <!-- Wallet Section -->
-  <section id="wallet" class="wallet-section">
-    <h2 class="section-title">Wallet</h2>
-    <p class="balance-display">Current Balance: <strong>₦0.00</strong></p>
-    <div class="wallet-actions">
-      <button class="wallet-btn" onclick="window.location.href='/fund'">Fund Wallet</button>
-      <button class="wallet-btn" onclick="window.location.href='/withdraw'">Withdraw Funds</button>
-      <button class="wallet-btn" onclick="window.location.href='/buy-ebook'">Buy eBooks</button>
+    <div id="blogs">
+      <h3>Blogs</h3>
+      <ul id="blog-list"></ul>
     </div>
-  </section>
-
-  <!-- Featured eBook Section -->
-  <section class="poster-section">
-    <h2 class="section-title">Featured eBooks</h2>
-    <div class="poster-slider">
-      <button class="nav-btn left-btn" onclick="navigatePoster('prev')">&#9664;</button>
-      <div class="poster">
-        <img src="https://via.placeholder.com/300x400" alt="eBook Poster">
-        <h3 class="poster-title">Book Title</h3>
-        <p class="poster-price">Price: ₦1,500</p>
-        <button class="purchase-btn" onclick="window.location.href='/buy/1'">Buy Now</button>
-      </div>
-      <button class="nav-btn right-btn" onclick="navigatePoster('next')">&#9654;</button>
+    <div id="multimedia">
+      <h3>Multimedia</h3>
+      <ul id="multimedia-list"></ul>
     </div>
-  </section>
-
-  <!-- eBook Gallery -->
-  <section class="ebook-gallery">
-    <h2 class="section-title">Discover More eBooks</h2>
-    <div class="ebook-grid">
-      <div class="ebook-card">
-        <img src="https://via.placeholder.com/150x200" alt="eBook">
-        <h3 class="ebook-title">eBook Title</h3>
-        <p class="ebook-price">₦10</p>
-        <button class="purchase-btn" onclick="window.location.href='/buy/2'">Buy</button>
-        <div class="timer">Time Left: 00:10:00</div>
-      </div>
-      <!-- Additional eBook cards here -->
-    </div>
-  </section>
-
-  <!-- Live Feed Section -->
-  <section class="live-feed-section">
-    <h2 class="section-title">Live Updates</h2>
-    <div class="live-feed-container">
-      <div class="live-feed-item">
-        <h3>Event Update</h3>
-        <p>New eBook "Mastery of Logic" is now available!</p>
-        <span class="feed-time">Just now</span>
-      </div>
-      <div class="live-feed-item">
-        <h3>Quiz Alert</h3>
-        <p>Join our live quiz at 4 PM today.</p>
-        <span class="feed-time">5 mins ago</span>
-      </div>
-      <!-- Additional live feed items dynamically updated -->
-    </div>
-  </section>
-
-  <!-- Quiz Section -->
-  <section class="quiz-section">
-    <h2 class="section-title">Live Quiz Challenge</h2>
-    <p>Test your knowledge and win amazing prizes!</p>
-    <button class="quiz-btn" onclick="joinQuiz()">Join Quiz</button>
-  </section>
-
-  <!-- Leaderboard Section -->
-  <section class="leaderboard-section">
-    <h2 class="section-title">Leaderboard</h2>
-    <ul class="leaderboard">
-      <li><strong>1.</strong> User A - 150 points</li>
-      <li><strong>2.</strong> User B - 120 points</li>
-      <li><strong>3.</strong> User C - 100 points</li>
-      <!-- Dynamically fetched leaderboard -->
-    </ul>
-  </section>
-
-  <!-- Blog Section -->
-  <section id="blog" class="blog-section">
-    <h2 class="section-title">From Our Blog</h2>
-    <div class="blog-posts">
-      <div class="blog-post">
-        <h3>Blog Title</h3>
-        <p>Explore our latest insights and articles.</p>
-        <a href="/blog/1" class="read-more">Read More</a>
-      </div>
-      <!-- Additional blog posts dynamically loaded -->
-    </div>
-  </section>
-
-  <!-- Support Section -->
-  <a href="/support" class="floating-support-btn">Support</a>
-
-  <!-- Login Section -->
-  <section class="login-section">
-    <h2 class="section-title">Login</h2>
-    <form action="/login" method="POST">
-      <div class="login-form">
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
-        <button type="submit" class="login-btn">Login</button>
-      </div>
-    </form>
-  </section>
-
-  <!-- File Upload Section (Visible only after login) -->
-  <section class="upload-section" style="display:none;">
-    <h2 class="section-title">Upload Content</h2>
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-      <div class="upload-form">
-        <label for="file">Select file to upload:</label>
-        <input type="file" name="file" id="file" accept="image/*, video/*">
-        <button type="submit" class="upload-btn">Upload</button>
-      </div>
-    </form>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <ul class="footer-links">
-      <li><a href="#about-us">About Us</a></li>
-      <li><a href="#privacy-policy">Privacy Policy</a></li>
-    </ul>
-    <p>© 2024 ARK1. All rights reserved.</p>
-  </footer>
+  </div>
 
   <script>
-    function joinQuiz() {
-      fetch('/check-authorization')
-        .then(response => response.json())
-        .then(data => {
-          if (data.isAuthorized) {
-            window.location.href = '/quiz';
-          } else {
-            alert('Authorization required to join the quiz.');
-          }
-        });
+    // Fetch and display submissions
+    async function fetchSubmissions() {
+      const response = await fetch('/submissions');
+      const data = await response.json();
+
+      const quizList = document.getElementById('quiz-list');
+      const blogList = document.getElementById('blog-list');
+      const multimediaList = document.getElementById('multimedia-list');
+
+      // Display quizzes
+      quizList.innerHTML = data.quizzes.map(quiz => `
+        <li>
+          <strong>Question:</strong> ${quiz.question}<br>
+          <strong>Answer:</strong> ${quiz.answer}<br>
+          <strong>Timer:</strong> ${quiz.timer} seconds
+        </li>
+      `).join('');
+
+      // Display blogs
+      blogList.innerHTML = data.blogs.map(blog => `
+        <li>
+          <strong>Title:</strong> ${blog.title}<br>
+          <strong>Content:</strong> ${blog.content}
+        </li>
+      `).join('');
+
+      // Display multimedia
+      multimediaList.innerHTML = data.multimedia.map(media => `
+        <li>
+          <strong>Title:</strong> ${media.title}<br>
+          <strong>Price:</strong> ₦${media.price}<br>
+          <strong>Files:</strong> ${media.files}
+        </li>
+      `).join('');
     }
 
-    function navigatePoster(direction) {
-      // Logic to navigate posters (carousel-like)
-    }
-
-    // Live feed logic
-    const liveFeedContainer = document.querySelector('.live-feed-container');
-    function addLiveFeed(message) {
-      const feedItem = document.createElement('div');
-      feedItem.className = 'live-feed-item';
-      feedItem.innerHTML = `
-        <h3>Update</h3>
-        <p>${message}</p>
-        <span class="feed-time">${new Date().toLocaleTimeString()}</span>
-      `;
-      liveFeedContainer.prepend(feedItem);
-      if (liveFeedContainer.children.length > 10) {
-        liveFeedContainer.removeChild(liveFeedContainer.lastChild);
-      }
-    }
-
-    setInterval(() => {
-      addLiveFeed('A new event just occurred at ' + new Date().toLocaleTimeString());
-    }, 6000);
+    // Fetch submissions on page load
+    fetchSubmissions();
   </script>
 </body>
 </html>

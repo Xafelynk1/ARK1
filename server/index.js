@@ -1,68 +1,46 @@
 const express = require('express');
-const path = require('path');
-const session = require('express-session');
-const multer = require('multer');
-
 const app = express();
-
-// Session configuration
-app.use(session({
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // Set to true if using HTTPS
-}));
-
-// Set up storage for uploaded files
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Specify the upload directory
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname); // Use original file name
-  }
-});
-
-// Initialize multer
-const upload = multer({ storage: storage });
-
-// Login route
-app.post('/login', (req, res) => {
-  // Simple hardcoded credentials for demonstration
-  const { username, password } = req.body;
-  if (username === 'admin' && password === 'password') {
-    req.session.authenticated = true;
-    res.redirect('/');
-  } else {
-    res.status(401).send('Invalid credentials');
-  }
-});
-
-// Logout route
-app.get('/logout', (req, res) => {
-  req.session.destroy();
-  res.redirect('/');
-});
-
-// Middleware to check authentication
-const requireAuth = (req, res, next) => {
-  if (req.session.authenticated) {
-    return next();
-  }
-  res.status(403).send('Access denied. Please login first.');
-};
-
-// Handle file upload (protected route)
-app.post('/upload', requireAuth, upload.single('file'), (req, res) => {
-  res.send('File uploaded successfully!');
-});
-
+const path = require('path');
 const PORT = process.env.PORT || 3000;
 
-// Serve static files from the public directory
+// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Start the server
+let quizzes = [];
+let blogs = [];
+let multimedia = [];
+
+// Endpoint to submit a quiz
+app.post('/submit-quiz', (req, res) => {
+    const { question, answer, timer } = req.body;
+    quizzes.push({ question, answer, timer });
+    res.status(201).send('Quiz submitted successfully!');
+});
+
+// Endpoint to submit a blog
+app.post('/submit-blog', (req, res) => {
+    const { title, content } = req.body;
+    blogs.push({ title, content });
+    res.status(201).send('Blog submitted successfully!');
+});
+
+// Endpoint to submit multimedia
+app.post('/submit-multimedia', (req, res) => {
+    const { title, price, files } = req.body;
+    multimedia.push({ title, price, files });
+    res.status(201).send('Multimedia submitted successfully!');
+});
+
+// Endpoint to get all submissions
+app.get('/submissions', (req, res) => {
+    res.json({ quizzes, blogs, multimedia });
+});
+
+// Serve the index.html file for the root route
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
