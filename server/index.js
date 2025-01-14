@@ -1,81 +1,68 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
 const path = require('path');
+const session = require('express-session');
+const multer = require('multer');
 
-const PORT = process.env.PORT || 5000;
+const app = express();
 
-// Create an HTTP server to serve static files
-const server = http.createServer((req, res) => {
-    console.log(`Request received: ${req.method} ${req.url}`);
-    let filePath = path.join(__dirname, 'public', req.url === '/' ? 'index.html' : req.url);
-    console.log(`Serving file: ${filePath}`);
-    const extname = path.extname(filePath);
-    let contentType = 'text/html';
-    res.writeHead(200, { 'Content-Type': contentType });
+// Session configuration
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Set to true if using HTTPS
+}));
 
-    switch (extname) {
-        case '.js':
-            contentType = 'text/javascript';
-            break;
-        case '.css':
-            contentType = 'text/css';
-            break;
-        case '.json':
-            contentType = 'application/json';
-            break;
-        case '.png':
-            contentType = 'image/png';
-            break;
-        case '.jpg':
-            contentType = 'image/jpg';
-            break;
-        case '.gif':
-            contentType = 'image/gif';
-            break;
-        case '.svg':
-            contentType = 'image/svg+xml';
-            break;
-        case '.wav':
-            contentType = 'audio/wav';
-            break;
-        case '.mp4':
-            contentType = 'video/mp4';
-            break;
-        case '.woff':
-            contentType = 'application/font-woff';
-            break;
-        case '.ttf':
-            contentType = 'application/font-ttf';
-            break;
-        case '.eot':
-            contentType = 'application/vnd.ms-fontobject';
-            break;
-        case '.otf':
-            contentType = 'application/font-otf';
-            break;
-        default:
-            contentType = 'application/octet-stream';
-    }
-
-    // Read the file from the filesystem
-    fs.readFile(filePath, (error, content) => {
-        if (error) {
-            console.error(`Error serving file: ${error.message}`);
-            if (error.code === 'ENOENT') {
-                res.writeHead(404, { 'Content-Type': 'text/html' });
-                res.end('<h1>404 Not Found</h1>', 'utf-8');
-            } else {
-                res.writeHead(500);
-                res.end('Sorry, there was an error: ' + error.code + ' ..\n');
-            }
-        } else {
-            console.log(`Response status: 200`);
-            res.end(content, 'utf-8');
-        }
-    });
+// Set up storage for uploaded files
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Specify the upload directory
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname); // Use original file name
+  }
 });
 
+// Initialize multer
+const upload = multer({ storage: storage });
+
+// Login route
+app.post('/login', (req, res) => {
+  // Simple hardcoded credentials for demonstration
+  const { username, password } = req.body;
+  if (username === 'admin' && password === 'password') {
+    req.session.authenticated = true;
+    res.redirect('/');
+  } else {
+    res.status(401).send('Invalid credentials');
+  }
+});
+
+// Logout route
+app.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
+});
+
+// Middleware to check authentication
+const requireAuth = (req, res, next) => {
+  if (req.session.authenticated) {
+    return next();
+  }
+  res.status(403).send('Access denied. Please login first.');
+};
+
+// Handle file upload (protected route)
+app.post('/upload', requireAuth, upload.single('file'), (req, res) => {
+  res.send('File uploaded successfully!');
+});
+
+const PORT = process.env.PORT || 3000;
+
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Start the server
-server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

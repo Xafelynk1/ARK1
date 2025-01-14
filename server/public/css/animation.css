@@ -1,0 +1,128 @@
+/* General Styles for Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes expandOnHover {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Fade-In Animation */
+.fade-in {
+    animation: fadeIn 1.5s ease-out forwards;
+}
+
+/* Slide-In From Left Animation */
+.slide-in-left {
+    animation: slideInFromLeft 1s ease-out forwards;
+}
+
+/* Slide-In From Right Animation */
+.slide-in-right {
+    animation: slideInFromRight 1s ease-out forwards;
+}
+
+/* Bounce Animation for Buttons or Icons */
+.bounce {
+    animation: bounce 1s ease infinite;
+}
+
+/* Button Hover Effect */
+.button-hover:hover {
+    animation: expandOnHover 0.5s ease-in-out;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Hover Effect */
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Content Section Hover Effect */
+.content-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Smooth Fade-In on Page Load */
+.page-load-fade {
+    animation: fadeIn 2s ease-out forwards;
+}
+
+/* Navigation Button Hover Effect */
+.nav-button-hover:hover {
+    background-color: #007BFF;
+    color: #fff;
+    transform: scale(1.05);
+    transition: transform 0.3s, background-color 0.3s ease;
+}
+
+/* Smooth Scroll Effect */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Animation for Featured Text */
+.featured-text {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    animation: slideInFromLeft 1.5s ease-out forwards;
+}
+
+/* Animation for Highlighting Text */
+.highlight-text {
+    color: #f44336;
+    animation: bounce 1.5s ease infinite;
+}
