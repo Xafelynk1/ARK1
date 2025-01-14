@@ -10,11 +10,28 @@ let quizzes = [];
 let blogs = [];
 let multimedia = [];
 
-// Endpoint to submit a quiz
-app.post('/submit-quiz', (req, res) => {
-    const { question, answer, timer } = req.body;
-    quizzes.push({ question, answer, timer });
-    res.status(201).send('Quiz submitted successfully!');
+const usersDB = require('./config/database');
+
+// Endpoint to handle user signup
+app.post('/signup', (req, res) => {
+    const { username, password } = req.body;
+    usersDB.insert({ username, password }, (err) => {
+        if (err) {
+            return res.status(500).json({ success: false, message: 'Error saving user.' });
+        }
+        res.status(201).json({ success: true, message: 'User registered successfully!' });
+    });
+});
+
+// Endpoint to handle user signin
+app.post('/signin', (req, res) => {
+    const { username, password } = req.body;
+    usersDB.findOne({ username, password }, (err, user) => {
+        if (err || !user) {
+            return res.status(401).json({ success: false, message: 'Invalid credentials.' });
+        }
+        res.status(200).json({ success: true, message: 'Signin successful!' });
+    });
 });
 
 // Endpoint to submit a blog
