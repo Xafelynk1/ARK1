@@ -1,0 +1,273 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  background-image: url('your-image-url.jpg'); /* Add your background image here */
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 80px 20px; /* Reduced padding */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 70%; /* Reduced width */
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+  word-wrap: break-word;
+  line-height: 1.2;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* Game/Group Chat Section */
+.game-chat-section {
+  padding: 40px;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.message-feed {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.message-item {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background-color: #f1f1f1;
+}
+
+.message-item.admin-message {
+  background-color: #e0f7fa;
+}
+
+.message-input-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 20px;
+}
+
+#message-input {
+  width: calc(100% - 100px); /* Dynamically adjust width */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 40px;
+}
+
+#send-message-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 80px;
+  height: 40px;
+  margin-left: 10px;
+}
+
+#send-message-btn:hover {
+  background-color: #0056b3;
+}
+
+.image-upload-container {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.upload-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.upload-btn:hover {
+  background-color: #218838;
+}
+
+/* Quiz Section */
+.quiz-section {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-btn {
+  background-color: #ff6f61;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
+}
+
+.quiz-btn:hover {
+  background-color: #e04e42;
+}
+
+.quiz-section p {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+/* Footer */
+footer {
+  background-color: #333;
+  color: white;
+  padding: 10px; /* Reduced padding */
+  text-align: center;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  display: inline-block;
+  margin-right: 10px; /* Reduced margin */
+}
+
+.footer-links li a {
+  color: white;
+  text-decoration: none;
+}
+
+.footer-links li a:hover {
+  text-decoration: underline;
+}
+
+.go-home-btn {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 8px 15px; /* Reduced size */
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 10px; /* Reduced margin */
+}
+
+.go-home-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Adjustments for Mobile Responsiveness */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .message-input-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #message-input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  #send-message-btn {
+    width: 100%;
+  }
+
+  .quiz-section {
+    padding: 15px;
+  }
+
+  .quiz-btn {
+    width: 100%;
+  }
+
+  .footer-links {
+    text-align: center;
+  }
+}
+
+/* Resize and Reduce Width of Website Name Segment */
+.hero-content {
+  width: 50%; /* Reduced size */
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 3rem;
+  word-wrap: break-word;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Admin Section Adjustments */
+.admin-message-box {
+  float: right;
+  width: 70%;
+  margin-right: 20px;
+}
+
+/* Hide Unnecessary Elements */
+.hero-subtitle {
+  display: none; /* Removed the write-up below website name */
+}
+
+footer {
+  position: relative;
+  height: auto;
+}
+
+footer .go-home-btn {
+  font-size: 12px; /* Reduced font size for home button */
+}

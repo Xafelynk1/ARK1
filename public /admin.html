@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARK1 - Admin Panel</title>
+  <link rel="stylesheet" href="admin.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="admin-content">
+    <header>
+      <h1>Admin Panel - ARK1</h1>
+      <button id="darkModeToggle">Toggle Dark Mode</button>
+    </header>
+    <div class="top-bar sticky">
+      <button class="home-btn" onclick="goHome()">Home</button>
+      <input type="text" id="globalSearch" placeholder="Search..." oninput="globalSearchHandler()">
+    </div>
+
+    <section id="notifications" class="admin-section">
+      <h2>Live Notifications</h2>
+      <div id="notificationPanel">
+        <!-- Notifications will be dynamically populated here -->
+      </div>
+    </section>
+
+    <section id="activity-logs" class="admin-section">
+      <h2>Activity Logs</h2>
+      <div id="activityLogContainer">
+        <!-- Activity logs will be displayed here -->
+      </div>
+    </section>
+
+    <section id="dashboard" class="admin-section">
+      <h2>Dashboard</h2>
+      <div class="dashboard-widgets">
+        <div class="widget">Total Users: <span id="totalUsers">0</span></div>
+        <div class="widget">Active Quizzes: <span id="activeQuizzes">0</span></div>
+        <div class="widget">Total Posts: <span id="totalPosts">0</span></div>
+        <div class="widget">Revenue: <span id="revenue">₦0.00</span></div>
+      </div>
+    </section>
+
+    <section id="wallet" class="admin-section">
+      <h2>Wallet</h2>
+      <div class="wallet-container">
+        <h3>Balance</h3>
+        <p id="balance">₦0.00</p>
+        <input type="number" id="withdrawAmount" placeholder="Enter amount in ₦">
+        <button id="withdrawBtn" onclick="withdrawFunds()">Withdraw Funds</button>
+      </div>
+    </section>
+
+    <section id="quiz-management" class="admin-section">
+      <h2>Quiz Management</h2>
+      <form id="quizForm" onsubmit="postQuiz(event)">
+        <label for="quiz-question">Question</label>
+        <textarea id="quiz-question" required></textarea>
+        <label for="quiz-answer">Answer</label>
+        <input type="text" id="quiz-answer" required>
+        <label for="quiz-timer">Timer (seconds)</label>
+        <input type="number" id="quiz-timer" placeholder="e.g., 30" required>
+        <label for="quiz-file">Upload File (optional)</label>
+        <input type="file" id="quiz-file" accept=".jpg, .jpeg, .png, .pdf, .mp4, .mp3">
+        <button type="submit">Post Quiz</button>
+      </form>
+      <div id="quizEventView">
+        <h3>Live Quiz Event</h3>
+        <div id="live-question" class="quiz-live-display">Question will appear here...</div>
+        <div id="timer-display" class="quiz-timer-display">Timer: 0</div>
+        <h4>Participants</h4>
+        <ul id="participant-list"></ul>
+      </div>
+    </section>
+
+    <section id="blog-management" class="admin-section">
+      <h2>Blog Post</h2>
+      <form id="blogPostForm" onsubmit="publishBlog(event)">
+        <input type="text" id="blog-title" placeholder="Title" required>
+        <textarea id="blog-content" placeholder="Write your blog content..." required></textarea>
+        <label for="file-type">File Type</label>
+        <select id="file-type">
+          <option value="poster">Poster</option>
+          <option value="video">Video</option>
+          <option value="image">Image</option>
+          <option value="pdf">PDF (eBook)</option>
+        </select>
+        <label for="blog-media">Add Media</label>
+        <input type="file" id="blog-media" accept=".jpg,.jpeg,.png,.gif,.pdf,.mp4,.mp3" multiple>
+        <button type="submit">Post Blog</button>
+      </form>
+      <div id="blogPreview"></div>
+    </section>
+
+    <section id="multimedia-upload" class="admin-section">
+      <h2>Multimedia Upload</h2>
+      <form id="multimediaForm" onsubmit="uploadMultimedia(event)">
+        <input type="text" id="content-title" placeholder="Title" required>
+        <label for="media-files">Upload Files</label>
+        <input type="file" id="media-files" accept=".jpg,.jpeg,.png,.gif,.pdf,.mp4,.mp3" multiple required>
+        <label for="content-price">Price ( ₦)</label>
+        <input type="number" id="content-price" placeholder="Enter price" required>
+        <button type="submit">Upload Content</button>
+      </form>
+    </section>
+
+    <section id="role-management" class="admin-section">
+      <h2>Custom Role Management</h2>
+      <form id="roleForm" onsubmit="createRole(event)">
+        <input type="text" id="role-name" placeholder="Role Name" required>
+        <label for="permissions">Permissions</label>
+        <div>
+          <label><input type="checkbox" value="manage_users"> Manage Users</label>
+          <label><input type="checkbox" value="manage_content"> Manage Content</label>
+          <label><input type="checkbox" value="view_reports"> View Reports</label>
+        </div>
+        <button type="submit">Create Role</button>
+      </form>
+    </section>
+
+    <section id="bulk-actions" class="admin-section">
+      <h2>Bulk Actions</h2>
+      <button onclick="approveSelectedUsers()">Approve Selected Users</button>
+      <button onclick="deleteSelectedPosts()">Delete Selected Posts</button>
+    </section>
+
+    <section id="analytics" class="admin-section">
+      <h2>Detailed Analytics</h2>
+      <canvas id="analyticsChart"></canvas>
+    </section>
+
+    <section id="approval-requests" class="admin-section">
+      <h2>Approval Requests</h2>
+      <div id="approvalRequestContainer">
+        <!-- Approval requests will be displayed here -->
+      </div>
+    </section>
+
+    <section id="content-drafts" class="admin-section">
+      <h2>Content Drafts</h2>
+      <div id="draftsContainer">
+        <!-- Drafts will be displayed here -->
+      </div>
+    </section>
+
+    <section id="export-features" class="admin-section">
+      <h2>Export Features</h2>
+      <button onclick="exportData('users')">Export Users</button>
+      <button onclick="exportData('financials')">Export Financial Records</button>
+    </section>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
