@@ -5,7 +5,7 @@ document.getElementById('quiz-form').addEventListener('submit', async (event) =>
     const answer = document.getElementById('answer').value;
 
     try {
-        const response = await fetch('/api/quiz', {
+        const response = await fetch('/quiz', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
