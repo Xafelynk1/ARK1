@@ -24,15 +24,22 @@ router.post('/register', async (req, res) => {
     }
 });
 
+// Admin login route
 router.post('/admin/login', async (req, res) => {
     const { username, password } = req.body;
 
+    if (!username || !password) {
+        return res.status(400).json({ error: 'Missing username or password' });
+    }
+
     try {
-        const result = await pool.query('SELECT * FROM "admins" WHERE username = $1 AND password = $2', [username, password]);
+        const result = await pool.query('SELECT * FROM admins WHERE username = $1', [username]);
         const admin = result.rows[0];
-        if (!admin) {
+
+        if (!admin || admin.password !== password) {
             return res.status(400).json({ error: 'Invalid username or password' });
         }
+
         res.status(200).json({ message: 'Admin logged in successfully', admin });
     } catch (err) {
         console.error('Error logging in:', err); // Log the error for debugging

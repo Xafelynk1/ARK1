@@ -2,6 +2,7 @@ const request = require('supertest');
 const express = require('express');
 const bodyParser = require('body-parser');
 const authRouter = require('../server/routes/auth');
+const mockPool = require('../mock-db'); // Import the mock database
 
 const app = express();
 app.use(bodyParser.json());
@@ -12,8 +13,8 @@ describe('Admin Login', () => {
         const response = await request(app)
             .post('/api/admin/login')
             .send({
-                username: 'adminUser', // Use a valid admin username
-                password: 'adminPassword' // Use the correct password
+                username: 'xafelynkark2', // Use the correct username
+                password: 'Sam1$12580064' // Use the correct password
             });
         expect(response.status).toBe(200);
         expect(response.body.message).toBe('Admin logged in successfully');
@@ -30,14 +31,18 @@ describe('Admin Login', () => {
         expect(response.body.error).toBe('Invalid username or password');
     });
 
-    it('should return an error for missing fields', async () => {
+afterAll(async () => {
+  await mockPool.end(); // Close the mock database connection after all tests
+});
+
+it('should return an error for missing fields', async () => {
         const response = await request(app)
             .post('/api/admin/login')
             .send({
-                username: 'adminUser',
+                username: 'xafelynkark2',
                 // Missing password
             });
         expect(response.status).toBe(400);
-        expect(response.body.error).toBe('Invalid username or password');
+        expect(response.body.error).toBe('Missing username or password');
     });
 });
