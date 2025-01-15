@@ -1,18 +1,18 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const nedb = require('nedb');
+const NeDB = require('nedb');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080; // Changed port to 8080
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Database setup
-const db = new nedb({ filename: 'server/database/users.db', autoload: true });
+const db = new NeDB({ filename: 'server/database/users.db', autoload: true });
 
 // Routes
 const authRoutes = require('./server/routes/auth');
@@ -23,7 +23,7 @@ app.use('/ebooks', ebookRoutes);
 
 // Serve the main page
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
+    res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 // Start the server

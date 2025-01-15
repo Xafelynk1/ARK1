@@ -12,7 +12,7 @@ describe('User Registration', () => {
         const response = await request(app)
             .post('/api/register')
             .send({
-                username: 'johndoe2', // Use a different username
+                username: 'johndoe3', // Use a different username
                 password: 'jojn112',
                 surname: 'Doe',
                 email: 'johndoe@gmail.com',

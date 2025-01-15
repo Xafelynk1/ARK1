@@ -24,17 +24,16 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// User login route
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+router.post('/admin/login', async (req, res) => {
+    const { username, password } = req.body;
 
     try {
-        const result = await pool.query('SELECT * FROM "users" WHERE email = $1 AND password = $2', [email, password]);
-        const user = result.rows[0];
-        if (!user) {
-            return res.status(400).json({ error: 'Invalid email or password' });
+        const result = await pool.query('SELECT * FROM "admins" WHERE username = $1 AND password = $2', [username, password]);
+        const admin = result.rows[0];
+        if (!admin) {
+            return res.status(400).json({ error: 'Invalid username or password' });
         }
-        res.status(200).json({ message: 'User logged in successfully', user });
+        res.status(200).json({ message: 'Admin logged in successfully', admin });
     } catch (err) {
         console.error('Error logging in:', err); // Log the error for debugging
         return res.status(400).json({ error: 'Error logging in' });
