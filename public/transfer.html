@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transfer Funds - ARK1</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header>
+    <h1>Transfer Funds</h1>
+    <button onclick="goBack()">Back to Admin Panel</button>
+  </header>
+  <section>
+    <form id="transferForm">
+      <label for="bank">Bank Transferred From:</label>
+      <input type="text" id="bank" required>
+      
+      <label for="sender-name">Name of Sender:</label>
+      <input type="text" id="sender-name" required>
+      
+      <label for="transfer-date">Date of Transfer:</label>
+      <input type="date" id="transfer-date" required>
+      
+      <button type="submit">Submit Transfer Request</button>
+    </form>
+  </section>
+
+  <script>
+    function goBack() {
+      window.location.href = 'admin.html'; // Link to the main admin panel
+    }
+
+    document.getElementById('transferForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const bank = document.getElementById('bank').value;
+      const senderName = document.getElementById('sender-name').value;
+      const transferDate = document.getElementById('transfer-date').value;
+      // Logic to handle transfer request submission
+      alert(`Transfer request submitted from ${bank} by ${senderName} on ${transferDate}.`);
+    });
+  </script>
+</body>
+</html>

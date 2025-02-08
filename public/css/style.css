@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    background-image: url('path/to/dark-lake-image.jpg'); /* Set background image */
+    background-size: cover; /* Cover the entire page */
+    background-position: center; /* Center the background image */
+}
+
+.header-container {
+    background: #35424a;
+    color: #ffffff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.wallet-section {
+    margin: 20px;
+    text-align: center;
+}
+
+.wallet-btn {
+    background-color: #35424a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.wallet-btn:hover {
+    background-color: #45a049;
+}
+
+.poster-section {
+    margin: 20px;
+    text-align: center;
+}
+
+.ebook-gallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.ebook-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+.purchase-btn {
+    background-color: #35424a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.purchase-btn:hover {
+    background-color: #45a049;
+}
+
+.quiz-section, .leaderboard-section, .live-feed-section, .blog-section {
+    margin: 20px;
+    text-align: center;
+}
+
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #35424a;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.footer-menu {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-menu li {
+    display: inline;
+    margin: 0 10px;
+}

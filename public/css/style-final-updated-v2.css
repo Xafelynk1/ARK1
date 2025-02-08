@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000; /* Dark background */
+    background-image: url('https://example.com/dark-background-red-rose-single.jpg'); /* Placeholder for dark background with single red rose */
+    background-size: cover; /* Cover the entire page */
+    background-position: center; /* Center the background image */
+}
+
+.header-container {
+    background: #35424a;
+    color: #ffffff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align the form elements */
+    margin: auto; /* Center the form on the page */
+}
+
+label, input {
+    margin: 10px 0; /* Add spacing between elements */
+}
+
+/* Other existing styles remain unchanged */

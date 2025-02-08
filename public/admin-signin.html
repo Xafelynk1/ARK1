@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Sign In - ARK2 Project</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ARK2 Admin</div>
+            <button id="menu-button">Menu</button>
+            <ul id="nav-list" style="display: none;">
+                <li><a href="admin-dashboard.html">Dashboard</a></li>
+            </ul>
+            <input type="text" placeholder="Search...">
+        </nav>
+    </header>
+
+    <main>
+        <section class="signin-form" style="max-width: 400px; margin: 2em auto; padding: 2em; background-color: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <h2 style="text-align: center;">Admin Sign In</h2>
+            <form id="adminSignInForm" action="/admin/login" method="POST">
+                <label for="username">Username:</label>
+                <input type="text" id="username" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+
+                <button type="submit">Sign In</button>
+                <p style="color: red; text-align: center;">Please enter your admin credentials to access the dashboard.</p>
+                <input type="hidden" name="role" value="admin"> <!-- Added hidden field for role -->
+            </form>
+        </section>
+    </main>
+
+    <footer style="text-align: center;">
+        <div class="contact-details">
+            <p>Contact us at: contact@ark2.com</p>
+        </div>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>

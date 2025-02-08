@@ -1,1 +1,55 @@
-<!-- Sign In functionality has been removed as dedicated pages are now available. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Signin - ARK2</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="css/signin.css"> <!-- Link to the new signin CSS -->
+</head>
+<body>
+  <header>
+    <div class="website-name-container">
+        <h1 class="website-name">ARK2</h1> <!-- Styled website name -->
+    </div>
+    <h1>User Signin</h1>
+  </header>
+  <section>
+    <form id="userSigninForm"> 
+      <label for="username">Username:</label>
+      <input type="text" id="username" required>
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" required>
+      
+      <button type="submit">Sign In</button>
+      <p><a href="#">Forgot Password?</a></p> <!-- Added Forgot Password link -->
+      <p>Already have an account? <a href="signup.html">Sign Up</a></p> <!-- Sign Up option -->
+    </form>
+  </section>
+
+  <script>
+    document.getElementById('userSigninForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const response = await fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            window.location.href = '/dashboard.html'; // Redirect to dashboard on success
+        } else {
+            alert(data.error || 'Login failed');
+        }
+    });
+  </script>
+</body>
+</html>

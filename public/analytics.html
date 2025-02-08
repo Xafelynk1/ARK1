@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics - ARK1</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header>
+    <h1>Analytics</h1>
+    <button onclick="goBack()">Back to Admin Panel</button>
+  </header>
+  <section>
+    <h2>Detailed Analytics</h2>
+    <canvas id="analyticsChart"></canvas>
+    <script>
+      function goBack() {
+        window.location.href = 'admin.html'; // Link to the main admin panel
+      }
+
+      // Example function to render analytics chart
+      function renderChart() {
+        const ctx = document.getElementById('analyticsChart').getContext('2d');
+        const chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Users', 'Quizzes', 'Posts', 'Revenue'],
+            datasets: [{
+              label: 'Statistics',
+              data: [12, 19, 3, 5], // Example data
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }
+
+      renderChart();
+    </script>
+  </section>
+</body>
+</html>

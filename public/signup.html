@@ -1,70 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup - ARK1</title>
-    <link rel="stylesheet" href="css/signup.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Signup - ARK2</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="css/signup.css"> <!-- Link to the new signup CSS -->
+  <link rel="stylesheet" href="public/css/style-final-updated-v4.css"> <!-- Link to the updated CSS -->
+  <link rel="stylesheet" href="public/css/style-final-updated-v4.css"> <!-- Link to the updated CSS -->
 </head>
 <body>
-    <!-- Website Name -->
-    <div class="website-name">
-        <h1>ARK1</h1>
+  <header>
+    <div class="website-name-container">
+        <h1 class="website-name">ARK2</h1> <!-- Styled website name -->
     </div>
+    <h1>User Signup</h1>
+  </header>
+    <section>
+        <div class="signup-container"> <!-- Added signup-container class -->
+        <form id="userSignupForm"> 
 
-    <!-- Signup Form -->
-    <div class="signup-container">
-        <h2>Create Account</h2>
-        <form action="/auth/register" method="POST" id="signup-form">
-            <label for="surname">Surname</label>
-            <input type="text" id="surname" name="surname" required>
-
-            <label for="firstname">First Name</label>
-            <input type="text" id="firstname" name="firstname" required>
-
-            <label for="dob">Date of Birth</label>
-            <input type="date" id="dob" name="dob" required>
-
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="phone">Phone Number</label>
-            <input type="text" id="phone" name="phone" required>
-
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-
-            <label for="confirm-password">Confirm Password</label>
-            <input type="password" id="confirm-password" name="confirm-password" required>
-
-            <button type="submit">Sign Up</button>
+      <label for="username">Username:</label>
+      <input type="text" id="username" required>
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" required>
+      
+      <label for="confirmPassword">Confirm Password:</label>
+      <input type="password" id="confirmPassword" required> <!-- Added Confirm Password field -->
+      
+      <label for="name">Name:</label>
+      <input type="text" id="name" required>
+      
+      <label for="surname">Surname:</label>
+      <input type="text" id="surname" required>
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+      
+      <label for="mobile">Mobile Number:</label>
+      <input type="tel" id="mobile" required>
+      
+      <label for="age">Age:</label>
+      <input type="number" id="age" required>
+      
+      <label>
+        <input type="checkbox" id="terms" required> I agree to the terms and conditions
+      </label>
+      
+      <button type="submit">Create Account</button>
         </form>
-        <div class="verification-notification" id="verification-notification" style="display:none;">
-            <p>A verification email has been sent. Please check your inbox.</p>
-        </div>
-    </div>
+        </div> <!-- End of signup-container -->
+    </section>
 
-    <script>
-        document.getElementById('signup-form').addEventListener('submit', async function (event) {
-            event.preventDefault();
 
-            const formData = new FormData(this);
-            const response = await fetch('/auth/register', {
-                method: 'POST',
-                body: formData
-            });
+  <script>
+    document.getElementById('userSignupForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const name = document.getElementById('name').value;
+      const surname = document.getElementById('surname').value;
+      const email = document.getElementById('email').value;
+      const mobile = document.getElementById('mobile').value;
+      const age = document.getElementById('age').value;
+      const terms = document.getElementById('terms').checked;
 
-            const data = await response.json();
-
-            if (data.message === 'User registered successfully') {
-                document.getElementById('verification-notification').style.display = 'block';
-                setTimeout(() => {
-                    window.location.href = '/signin.html';
-                }, 3000); // Redirect after 3 seconds
-            } else {
-                alert(data.error || 'Registration failed');
-            }
+      if (terms) {
+        const response = await fetch('/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, name, surname, email, mobile, age }),
         });
-    </script>
+
+        const data = await response.json();
+
+        if (data.success) {
+          alert(`User account created for ${username}.`);
+          window.location.href = '/signin.html'; // Redirect to sign-in page
+        } else {
+          alert(data.error || 'Registration failed');
+        }
+      } else {
+        alert('You must agree to the terms and conditions.');
+      }
+    });
+  </script>
 </body>
 </html>

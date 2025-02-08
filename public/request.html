@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Page</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <h1>Request Page</h1>
+    <p>This is the Request page. Here you can submit your requests.</p>
+    <form action="/submit-request" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </form>
+    <a href="index.html">Back to Index</a>
+</body>
+</html>
+        <label for="request-type">Type of Request:</label>
+        <select id="request-type" name="request-type" required>
+            <option value="general">General Inquiry</option>
+            <option value="support">Support Request</option>
+            <option value="feedback">Feedback</option>
+        </select>
+        
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        
+        <button type="submit">Submit Request</button>
+    </form>
+</body>
+</html>

@@ -3,24 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Page</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Payment - ARK2 Project</title>
+    <link rel="stylesheet" href="css/payment.css">
 </head>
 <body>
-    <h1>Payment Page</h1>
-    <form id="payment-form">
-        <label for="amount">Amount:</label>
-        <input type="number" id="amount" name="amount" required>
-        
-        <label for="paymentMethod">Payment Method:</label>
-        <select id="paymentMethod" name="paymentMethod" required>
-            <option value="creditCard">Credit Card</option>
-            <option value="paypal">PayPal</option>
-        </select>
-        
-        <button type="submit">Buy Now</button>
-    </form>
+    <header>
+        <nav>
+            <div class="logo">ARK2</div>
+            <button id="menu-button">Menu</button>
+            <ul id="nav-list" style="display: none;">
+                <li><a href="request.html">Request</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="product-display.html">Product Display</a></li>
+            </ul>
+            <input type="text" placeholder="Search...">
+        </nav>
+    </header>
 
-    <script src="js/payment.js"></script>
+    <main>
+        <section class="payment-form">
+            <h2>Complete Your Purchase</h2>
+            <form id="paymentForm" action="payment-options.html" method="POST">
+                <h3>Order Summary</h3>
+                <p>E-Book Title: <span id="ebookTitle">E-Book Title</span></p>
+                <p>Price: <span id="ebookPrice">₦9.99</span></p>
+
+                <button type="button" onclick="window.location.href='payment-options.html'">Pay from Wallet</button> <!-- Pay from wallet option -->
+                <button type="button" onclick="window.location.href='index.html'">Home</button> <!-- Home button -->
+                <label for="cardName">Name on Card:</label>
+                <input type="text" id="cardName" required>
+
+                <label for="cardNumber">Card Number:</label>
+                <input type="text" id="cardNumber" required>
+
+                <label for="expiration">Expiration Date (MM/YY):</label>
+                <input type="text" id="expiration" required>
+
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" required>
+
+                <label for="billingAddress">Billing Address:</label>
+                <input type="text" id="billingAddress" required>
+
+                <h3>Order Summary</h3>
+                <p>E-Book Title: <span id="ebookTitle">E-Book Title</span></p>
+                <p>Price: <span id="ebookPrice">₦9.99</span></p>
+
+                <button type="submit">Pay Now</button>
+                <button onclick="window.location.href='payment-options.html'">Pay with Transfer</button> <!-- Added Pay with Transfer button -->
+                <button onclick="window.location.href='index.html'">Home</button> <!-- Added Home button -->
+                <button type="button" onclick="window.location.href='payment-options.html'">Proceed</button> <!-- Added Proceed button for card payment -->
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-media">
+            <!-- Social media icons will be added here -->
+        </div>
+        <div class="contact-details">
+            <p>Contact us at: contact@ark2.com</p>
+        </div>
+        <div class="newsletter">
+            <input type="email" placeholder="Subscribe to our newsletter">
+            <button>Subscribe</button>
+        </div>
+    </footer>
+
+    <script src="js/scripts.js"></script>
 </body>
 </html>

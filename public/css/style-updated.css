@@ -1,0 +1,18 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    background-image: url('https://via.placeholder.com/1920x1080.png?text=Dark+Lake'); /* Placeholder image */
+    background-size: cover; /* Cover the entire page */
+    background-position: center; /* Center the background image */
+}
+
+.header-container {
+    background: #35424a;
+    color: #ffffff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+/* Other existing styles remain unchanged */

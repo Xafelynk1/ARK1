@@ -1,10 +1,10 @@
-/* index.css */
+/* payment.css */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #f4f4f4;
+    background-color: skyblue; /* Updated to sky blue */
 }
 
 header {
@@ -55,35 +55,43 @@ nav input[type="text"] {
     border-radius: 5px;
 }
 
-.hero {
-    background: url('uploads/DALL·E 2025-01-16 01.37.28 - A detailed and visually striking image of a single red rose flower with velvety petals, set against a dark, almost black background. The rose is illum.webp') no-repeat center center/cover;
-    height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
+.payment-form {
+    background-color: #fff;
+    max-width: 400px;
+    margin: 2em auto;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid teal; /* Added border for better visibility */
+}
+
+.payment-form h2 {
     text-align: center;
 }
 
-.hero .cta-button {
-    padding: 10px 20px;
-    background-color: teal;
+.payment-form label {
+    margin-bottom: 0.5em;
+    font-weight: bold;
+}
+
+.payment-form input[type="text"] {
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.payment-form button[type="submit"] {
+    padding: 0.7em;
+    background-color: #333;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-.hero .cta-button:hover {
-    background-color: darkcyan;
-}
-
-.grid, .gallery, .media-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
+.payment-form button[type="submit"]:hover {
+    background-color: #555;
 }
 
 footer {
@@ -93,7 +101,7 @@ footer {
     text-align: center;
 }
 
-footer .social-media, .contact-details, .newsletter {
+footer .social-media, footer .contact-details, footer .newsletter {
     margin: 10px 0;
 }
 

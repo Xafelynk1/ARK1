@@ -1,0 +1,86 @@
+/* signin.css */
+
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 1em 0;
+  text-align: center;
+}
+
+header .website-name-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header .website-name {
+  font-size: 2em;
+  margin: 0;
+}
+
+header h1 {
+  margin: 0.5em 0 0;
+}
+
+/* Form Styles */
+section {
+  background-color: #fff;
+  max-width: 400px;
+  margin: 2em auto;
+  padding: 2em;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 0.5em;
+  margin-bottom: 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button[type="submit"] {
+  padding: 0.7em;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #555;
+}
+
+p {
+  margin: 1em 0 0;
+  text-align: center;
+}
+
+p a {
+  color: #333;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}

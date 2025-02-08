@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bulk Actions - ARK1</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header>
+    <h1>Bulk Actions</h1>
+    <button onclick="goBack()">Back to Admin Panel</button>
+  </header>
+  <section>
+    <h2>Bulk Actions</h2>
+    <button onclick="approveSelectedUsers()">Approve Selected Users</button>
+    <button onclick="deleteSelectedPosts()">Delete Selected Posts</button>
+  </section>
+
+  <script>
+    function goBack() {
+      window.location.href = 'admin.html'; // Link to the main admin panel
+    }
+
+    function approveSelectedUsers() {
+      alert('Selected users approved.');
+    }
+
+    function deleteSelectedPosts() {
+      alert('Selected posts deleted.');
+    }
+  </script>
+</body>
+</html>

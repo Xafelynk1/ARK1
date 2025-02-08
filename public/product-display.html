@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Display - ARK1</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Updated to link to the correct CSS file -->
+</head>
+<body>
+    <div class="admin-content">
+        <header>
+            <h1>Product Display - ARK1</h1>
+            <button id="darkModeToggle">Toggle Dark Mode</button>
+        </header>
+        <div class="top-bar sticky">
+            <button class="home-btn" onclick="goHome()">Home</button>
+            <input type="text" id="globalSearch" placeholder="Search..." oninput="globalSearchHandler()">
+        </div>
+
+        <section class="product-list">
+            <h2>Available Products</h2>
+            <div id="productContainer">
+                <!-- Product items will be dynamically inserted here -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Function to fetch and display products
+        function loadProducts() {
+            fetch('/') // Adjusted to the correct endpoint
+                .then(response => response.json())
+                .then(data => {
+                    const productContainer = document.getElementById('productContainer');
+                    data.products.forEach(product => {
+                        const productDiv = document.createElement('div');
+                        productDiv.className = 'product-item';
+                        productDiv.innerHTML = `
+                            <h3>${product.title}</h3>
+                            <p>${product.content}</p>
+                            <p>Price: ₦${product.price}</p>
+                        `;
+                        productContainer.appendChild(productDiv);
+                    });
+                })
+                .catch(error => console.error('Error fetching products:', error));
+        }
+
+        // Load products on page load
+        window.onload = function() {
+            loadProducts();
+        };
+    </script>
+</body>
+</html>
+</create_file>
+
+<edit_file>
+<path>frontend/index.html</path>
+<content>
+<<<<<<< SEARCH
+        <li><a href="payment.html">Payment</a></li>
+=======
+        <li><a href="payment.html">Payment</a></li>
+        <li><a href="product-display.html">Product Display</a></li>

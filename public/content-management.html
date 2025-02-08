@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Management - ARK2</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet"> <!-- Google Font -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c2c2c; /* Pale black */
+            margin: 0;
+            padding: 0;
+        }
+        .admin-content { padding: 20px; }
+        .admin-section { margin: 20px 0; padding: 15px; background: white; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1, h2 { color: #343a40; }
+        .preview { margin-top: 10px; }
+        .preview img { 
+            max-width: 100%; 
+            height: auto; 
+            max-height: 80vh; /* Limit height to 80% of the viewport height */
+            object-fit: contain; /* Maintain aspect ratio */
+        }
+        .live-feed { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px; }
+        .live-feed-item { padding: 20px; border-bottom: 1px solid #dee2e6; display: flex; flex-direction: column; align-items: flex-start; } /* Changed to column layout */
+        .live-feed-item img { max-width: 100%; height: auto; margin: 10px 0; } /* Adjust image size for portrait */
+        .live-feed-item:last-child { border-bottom: none; }
+        .vintage-container {
+            background-color: #f5e1a4; /* Vintage color */
+            padding: 15px;
+            border-radius: 5px;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .upload-container {
+            background-color: #d2b48c; /* Faint brown */
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .title {
+            font-family: 'Roboto', sans-serif; /* Attractive font */
+            font-weight: bold;
+            font-size: 1.5em;
+            color: #343a40;
+        }
+        .buy-button {
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            padding: 10px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin-top: 10px;
+        }
+        .buy-button:hover { 
+            background: #0056b3; 
+        }
+        .delete-button { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
+        .delete-button:hover { background: #c82333; }
+        input, textarea, select { width: 100%; margin-bottom: 10px; padding: 10px; border: 1px solid #ced4da; border-radius: 5px; }
+        button { background: #007bff; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="admin-content">
+        <header>
+            <h1>Content Management - ARK2</h1>
+        </header>
+
+        <section id="upload-progress" class="admin-section upload-container">
+            <h2>Upload Content</h2>
+            <form id="blogPostForm" onsubmit="return handleFormSubmit(event)">
+                <input type="text" id="blog-title" placeholder="Title" required>
+                <textarea id="blog-content" placeholder="Write your blog content..." required></textarea>
+                <label for="file-type">File Type</label>
+                <select id="file-type">
+                    <option value="poster">Poster</option>
+                    <option value="video">Video</option>
+                    <option value="image">Image</option>
+                    <option value="pdf">PDF (eBook)</option>
+                </select>
+                <label for="blog-price">Price (in Naira, for eBooks)</label>
+                <input type="number" id="blog-price" placeholder="Enter price" min="0.01" step="0.01">
+                <label for="offer-timer">Offer Timer (optional, in hours)</label>
+                <input type="number" id="offer-timer" placeholder="Set timer" min="1" optional>
+                <label for="blog-media">Add Media</label>
+                <input type="file" id="blog-media" accept=".jpg,.jpeg,.png,.gif,.pdf,.mp4,.mp3" multiple onchange="previewMedia()">
+                <button type="submit">Post Blog</button>
+            </form>
+            <div id="blogPreview" class="preview"></div>
+        </section>
+
+        <section class="live-feed admin-section">
+            <h2>Live Feed</h2>
+            <div id="liveFeedContainer">
+                <!-- Live feed items will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <button onclick="window.location.href='admin-dashboard.html'" style="margin-top: 20px;">Home</button>
+
+        <footer>
+            <p>&copy; 2023 ARK2</p>
+        </footer>
+    </div>
+
+    <script>
+        const isAdmin = true; // Set this based on the user's role
+
+        function previewMedia() {
+            const fileInput = document.getElementById('blog-media');
+            const previewContainer = document.getElementById('blogPreview');
+            previewContainer.innerHTML = ''; // Clear previous previews
+
+            Array.from(fileInput.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = file.name;
+                    img.style.maxWidth = '100%';
+                    previewContainer.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const title = document.getElementById('blog-title').value;
+            const content = document.getElementById('blog-content').value;
+            const price = document.getElementById('blog-price').value;
+            const timer = document.getElementById('offer-timer').value;
+
+            const feedItemDiv = document.createElement('div');
+            feedItemDiv.className = 'live-feed-item';
+            const files = Array.from(document.getElementById('blog-media').files);
+            const fileReaders = files.map(file => {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        resolve(`<img src="${e.target.result}" alt="Uploaded Image" style="max-width: 100%; height: auto; margin: 10px 0;">`);
+                    }
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            Promise.all(fileReaders).then(images => {
+                const imagesHtml = images.join('');
+                feedItemDiv.innerHTML = `
+                    <div class="vintage-container">
+                        <div class="title">${title}</div>
+                        <div class="posted-images">${imagesHtml}</div>
+                        <p>${content}</p>
+                        <p>Price: ₦${price}</p>
+                        <p>Offer Timer: ${timer} hours</p>
+                        <a href="payment.html" class="buy-button">Buy Now</a>
+                        ${isAdmin ? '<button class="delete-button" onclick="deleteFeedItem(this)">Delete</button>' : ''}
+                    </div>
+                `;
+                document.getElementById('liveFeedContainer').appendChild(feedItemDiv);
+                alert('Content submitted!');
+
+                // Clear input fields
+                document.getElementById('blogPostForm').reset(); // Reset the form
+                document.getElementById('blogPreview').innerHTML = ''; // Clear preview
+            });
+        }
+
+        function deleteFeedItem(button) {
+            const liveFeedContainer = document.getElementById('liveFeedContainer');
+            liveFeedContainer.removeChild(button.parentElement);
+        }
+
+        // Load live feed on page load
+        window.onload = function() {
+            // Load any existing feed items if necessary
+        };
+    </script>
+</body>
+</html>

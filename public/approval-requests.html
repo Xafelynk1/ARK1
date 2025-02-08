@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Approval Requests - ARK1</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header>
+    <h1>Approval Requests</h1>
+    <button onclick="goBack()">Back to Admin Panel</button>
+  </header>
+  <section>
+    <h2>Pending Approval Requests</h2>
+    <div id="approvalRequestContainer">
+      <!-- Approval requests will be dynamically populated here -->
+    </div>
+  </section>
+
+  <script>
+    function goBack() {
+      window.location.href = 'admin.html'; // Link to the main admin panel
+    }
+
+    // Example function to simulate loading approval requests
+    function loadApprovalRequests() {
+      const requests = [
+        'User John Doe requests approval for role change.',
+        'Content "New Blog Post" is pending approval.',
+      ];
+      const container = document.getElementById('approvalRequestContainer');
+      requests.forEach(request => {
+        const requestElement = document.createElement('div');
+        requestElement.textContent = request;
+        container.appendChild(requestElement);
+      });
+    }
+
+    loadApprovalRequests();
+  </script>
+</body>
+</html>

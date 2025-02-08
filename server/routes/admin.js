@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../config/database'); // Updated to correct database connection
 
-console.log('Fetching users...'); // Log to confirm the request is received
 // Endpoint to get users with their roles
 router.get('/users', async (req, res) => {
     try {
@@ -29,6 +28,15 @@ router.put('/users/:id/role', async (req, res) => {
         console.error('Error updating user role:', err);
         res.status(500).json({ error: 'Internal server error' });
     }
+});
+
+// Logic to restrict access to the admin page
+router.use((req, res, next) => {
+    const isAdmin = req.session && req.session.user && req.session.user.role === 'admin'; // Check if user is admin
+    if (!isAdmin) {
+        return res.status(403).json({ error: 'Access denied. You are not authorized to view this page.' });
+    }
+    next();
 });
 
 module.exports = router;

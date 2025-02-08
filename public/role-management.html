@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Role Management - ARK1</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header>
+    <h1>Role Management</h1>
+    <button onclick="goBack()">Back to Admin Panel</button>
+  </header>
+  <section>
+    <h2>Roles List</h2>
+    <table id="rolesTable">
+      <thead>
+        <tr>
+          <th>Role Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Role rows will be dynamically populated here -->
+      </tbody>
+    </table>
+    <form id="roleForm">
+      <input type="text" id="role-name" placeholder="Role Name" required>
+      <button type="submit">Create Role</button>
+    </form>
+  </section>
+
+  <script>
+    function goBack() {
+      window.location.href = 'admin.html'; // Link to the main admin panel
+    }
+
+    document.getElementById('roleForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const roleName = document.getElementById('role-name').value;
+      // Logic to create a new role
+      alert(`Role created: ${roleName}`);
+    });
+  </script>
+</body>
+</html>

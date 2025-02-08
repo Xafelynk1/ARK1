@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARK1 - Admin Panel</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .admin-content { padding: 20px; }
+        .admin-section { margin: 20px 0; padding: 15px; background: white; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        #uploadProgressContainer { width: 100%; background: #f3f3f3; }
+        #uploadProgressBar { height: 20px; background: #4caf50; width: 0%; }
+        .menu-toolbar { display: none; flex-direction: column; background: #f8f8f8; padding: 10px; }
+        .menu-toolbar button { padding: 10px; margin: 5px 0; border: none; border-radius: 5px; cursor: pointer; }
+        .menu-toolbar button:hover { background: #e0e0e0; }
+        .toggle-menu { cursor: pointer; }
+        .wallet-section { background: #e0f7fa; padding: 15px; border-radius: 5px; }
+        .withdraw-button { background: #ff5722; color: white; }
+        .withdraw-button:hover { background: #e64a19; }
+        .preview { margin-top: 10px; }
+        .preview img { max-width: 100%; height: auto; }
+        .cropper-container { display: none; }
+    </style>
+</head>
+<body>
+    <div class="admin-content">
+        <header>
+            <h1>Admin Panel - ARK1</h1>
+            <button id="darkModeToggle">Toggle Dark Mode</button>
+            <i class="fas fa-bars toggle-menu" onclick="toggleMenu()"></i>
+        </header>
+        <div class="menu-toolbar" id="menuToolbar">
+            <button onclick="goToPage('blog.html')">Blog Management</button>
+            <button onclick="goToPage('content-management.html')">Content Management</button>
+            <button onclick="goToPage('multimedia.html')">Multimedia Management</button>
+            <button onclick="goToPage('analytics.html')">Analytics</button>
+            <button onclick="goToPage('settings.html')">Settings</button>
+            <button onclick="goToPage('user-management.html')">User Management</button>
+            <button onclick="goToPage('wallet.html')">Wallet Management</button>
+        </div>
+
+        <section id="notifications" class="admin-section">
+            <h2>Live Notifications</h2>
+            <div id="notificationPanel"></div>
+        </section>
+
+        <section id="activity-logs" class="admin-section">
+            <h2>Activity Logs</h2>
+            <div id="activityLogContainer"></div>
+        </section>
+
+        <section id="dashboard" class="admin-section">
+            <h2>Dashboard</h2>
+            <div class="dashboard-widgets">
+                <div class="widget">Total Users: <span id="totalUsers">0</span></div>
+                <div class="widget">Active Quizzes: <span id="activeQuizzes">0</span></div>
+                <div class="widget">Total Posts: <span id="totalPosts">0</span></div>
+                <div class="widget">Revenue: <span id="revenue">₦0.00</span></div>
+            </div>
+        </section>
+
+        <section class="wallet-section admin-section">
+            <h2>Wallet</h2>
+            <p>Balance: <span id="walletBalance">₦0.00</span></p>
+            <button class="withdraw-button" onclick="goToPage('withdraw.html')">Withdraw</button>
+        </section>
+
+        <section id="blog-multimedia-management" class="admin-section">
+            <h2>Blog & Multimedia Management</h2>
+            <form id="blogPostForm" onsubmit="return handleFormSubmit(event)">
+                <input type="text" id="blog-title" placeholder="Title" required>
+                <textarea id="blog-content" placeholder="Write your blog content..." required></textarea>
+                <label for="file-type">File Type</label>
+                <select id="file-type">
+                    <option value="poster">Poster</option>
+                    <option value="video">Video</option>
+                    <option value="image">Image</option>
+                    <option value="pdf">PDF (eBook)</option>
+                </select>
+                <label for="blog-price">Price (for eBooks)</label>
+                <input type="number" id="blog-price" placeholder="Enter price" min="0.01" step="0.01">
+                <label for="offer-timer">Offer Timer (optional, in hours)</label>
+                <input type="number" id="offer-timer" placeholder="Set timer" min="1" optional>
+                <label for="blog-media">Add Media</label>
+                <input type="file" id="blog-media" accept=".jpg,.jpeg,.png,.gif,.pdf,.mp4,.mp3" multiple onchange="previewMedia()">
+                <button type="submit">Post Blog</button>
+            </form>
+            <div id="blogPreview" class="preview"></div>
+            <div class="cropper-container" id="cropperContainer">
+                <img id="imageToCrop" src="" alt="Image to crop">
+                <button onclick="cropImage()">Crop Image</button>
+            </div>
+        </section>
+
+        <section id="upload-progress" class="admin-section">
+            <h2>Upload Progress</h2>
+            <div id="uploadProgressContainer">
+                <div id="uploadProgressBar" style="width: 0%;"></div>
+            </div>
+            <button onclick="goToPage('content-management.html')">Go Full Page</button>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 ARK2</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script>
+        let cropper;
+
+        function toggleMenu() {
+            const menu = document.getElementById('menuToolbar');
+            menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function goToPage(page) {
+            window.location.href = page;
+        }
+
+        // Logic to restrict access to the admin page
+        const isAdmin = false; // Change this based on your authentication logic
+        if (!isAdmin) {
+            alert('Access denied. You are not authorized to view this page.');
+            window.location.href = 'user-signin.html'; // Redirect to user sign-in page
+        }
+    </script>
+</body>
+</html>

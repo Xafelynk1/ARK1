@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRIV-TO WIN</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="public/css/quiz-management.css"> <!-- External CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: skyblue; /* Set background to sky blue */
+            color: black; /* Set text color to black for contrast */
+            margin: 0;
+            padding: 0;
+        }
+        .header-container {
+            background-color: blue; /* Thick blue background for header */
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Text shadow for emphasis */
+            font-weight: bold; /* Bold font */
+        }
+        .admin-content { padding: 20px; }
+        .chat-container { display: flex; }
+        .user-list { width: 20%; padding: 10px; background: #333; border-radius: 5px; margin-right: 10px; display: none; } /* Initially hidden */
+        .chat-window { width: 75%; padding: 10px; background: skyblue; border-radius: 5px; position: relative; overflow-y: auto; height: calc(100vh - 200px); }
+        .message { margin: 5px 0; display: flex; flex-direction: column; font-size: 0.8em; } /* Reduced message size for user */
+        .message.admin { color: white; font-weight: bold; }
+        .message.user { color: white; font-size: 0.7em; } /* Smaller user message */
+        .profile-icon { width: 30px; height: 30px; border-radius: 50%; margin-right: 10px; }
+        .message-container {
+            background: rgba(50, 50, 50, 0.8); /* Pale black background for message container */
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+            overflow-wrap: break-word; /* Ensure long words break to the next line */
+        }
+        .input-area { display: flex; position: fixed; bottom: 0; width: 75%; padding: 10px; background: skyblue; }
+        .input-area textarea {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #555; /* Darker input background */
+            color: white;
+            resize: none; /* Prevent resizing */
+        }
+        .input-area button, .input-area .camera-icon {
+            padding: 10px;
+            margin-left: 5px;
+            background: #007bff; /* Blue button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s; /* Smooth transition */
+        }
+        .input-area button:hover, .input-area .camera-icon:hover {
+            background: #0056b3; /* Darker blue on hover */
+        }
+        .quiz-display { margin-top: 20px; }
+        .quiz-question { font-weight: bold; }
+        .quiz-options { margin-top: 10px; }
+        .quiz-options button {
+            margin-right: 5px;
+            background: #28a745; /* Green button for quiz options */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            transition: background 0.3s; /* Smooth transition */
+        }
+        .quiz-options button:hover {
+            background: #218838; /* Darker green on hover */
+        }
+        #timer { font-size: 20px; color: red; } /* Timer styling */
+        .scroll-button {
+            display: none; /* Initially hidden */
+            position: fixed;
+            right: 20px;
+            bottom: 100px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-content">
+        <div class="header-container">
+            <h1>TRIV-TO WIN</h1>
+            <button onclick="toggleUserList()" style="background: blue; color: white; border: none; border-radius: 5px; cursor: pointer;">✔️</button> <!-- Check button to toggle user list -->
+            <div id="adminQuestion" class="admin-question">
+                <!-- Admin question will be displayed here -->
+            </div>
+            <div id="timer" class="timer" style="display: none;"></div> <!-- Timer display -->
+        </div>
+        <div class="chat-container">
+            <div class="user-list" id="userList">
+                <h2>Active Users</h2>
+                <ul id="userListItems">
+                    <!-- List of active users will be populated here -->
+                </ul>
+                <button onclick="window.location.href='admin-dashboard.html'" style="margin-top: 20px; padding: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Home</button> <!-- Home button -->
+                <button onclick="window.location.href='settings.html'" style="margin-top: 10px; padding: 10px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Settings</button>
+            </div>
+            <div class="chat-window">
+                <h2 style="display: none;">Chat Room</h2>
+                <div id="chatHistory">
+                    <!-- Chat messages will be displayed here -->
+                </div>
+                <div class="input-area">
+                    <input type="file" id="imageInput" style="display: none;" accept="image/*" onchange="uploadImage(event)"> <!-- Hidden file input for image upload -->
+                    <button class="camera-icon" onclick="document.getElementById('imageInput').click()">📷</button> <!-- Camera icon for image insertion -->
+                    <textarea id="messageInput" placeholder="Type your message..." rows="3"></textarea>
+                    <button onclick="sendMessage()">Send</button> <!-- Send button -->
+                </div>
+            </div>
+        </div>
+        <button id="scrollButton" class="scroll-button" onclick="scrollChat()">⬇️</button>
+        <script>
+            function toggleUserList() {
+                const userList = document.getElementById('userList');
+                userList.style.display = userList.style.display === 'none' ? 'block' : 'none';
+            }
+
+            function sendMessage() {
+                const messageInput = document.getElementById('messageInput');
+                const chatHistory = document.getElementById('chatHistory');
+                const message = messageInput.value;
+                const senderName = "Admin"; // Set sender name to Admin
+
+                if (message) {
+                    const messageElement = document.createElement('div');
+                    messageElement.className = 'message admin'; // Change class to admin for styling
+                    messageElement.innerHTML = `<img src="path/to/profile-icon.png" class="profile-icon" alt="Profile Icon"> 
+                    <div class="message-container">
+                        <strong>${senderName}</strong>
+                        <div>${message}</div>
+                    </div>`;
+                    chatHistory.appendChild(messageElement);
+                    messageInput.value = ''; // Clear input
+
+                    // Check if the message ends with a question mark to start the timer
+                    if (message.endsWith('?')) {
+                        startTimer(60); // Start timer for 60 seconds
+                    }
+
+                    // Show scroll button if there are more messages
+                    document.getElementById('scrollButton').style.display = 'block';
+                }
+            }
+
+            function uploadImage(event) {
+                const file = event.target.files[0];
+                const messageInput = document.getElementById('messageInput');
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        messageInput.value += `<img src="${e.target.result}" alt="Image" style="max-width: 100px;"/>`; // Append image to message input
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+
+            function startTimer(duration) {
+                let timer = duration, minutes, seconds;
+                document.getElementById('timer').style.display = 'block'; // Show timer
+                const countdownTimer = setInterval(function () {
+                    minutes = parseInt(timer / 60, 10);
+                    seconds = parseInt(timer % 60, 10);
+
+                    minutes = minutes < 10 ? "0" + minutes : minutes;
+                    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                    document.getElementById('timer').textContent = minutes + ":" + seconds;
+
+                    if (--timer < 0) {
+                        clearInterval(countdownTimer);
+                        document.getElementById('messageInput').disabled = true; // Disable input after timer ends
+                    }
+                }, 1000);
+            }
+
+            function scrollChat() {
+                const chatHistory = document.getElementById('chatHistory');
+                chatHistory.scrollTop = chatHistory.scrollHeight; // Scroll to the bottom
+            }
+
+            // Event listener to hide scroll button when scrolling
+            document.getElementById('chatHistory').addEventListener('scroll', function() {
+                const chatHistory = document.getElementById('chatHistory');
+                if (chatHistory.scrollTop + chatHistory.clientHeight >= chatHistory.scrollHeight) {
+                    document.getElementById('scrollButton').style.display = 'none'; // Hide button when at the bottom
+                }
+            });
+        </script>
+    </div>
+
+    <script src="public/js/quiz-auth.js"></script> <!-- Connect to the relevant JS file -->
+</body>
+</html>

@@ -3,14 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARK1 Project</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>ARK2 Project - EBook Marketplace</title>
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    <h1>Welcome to the ARK1 Project</h1>
-    <p>This is the main page of the application.</p>
+    <header>
+        <nav>
+            <div class="logo">ARK2</div>
+            <button id="menu-button">Menu</button>
+            <ul id="nav-list" style="display: none;">
+                <li><a href="request.html">Request</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="product-display.html">Product Display</a></li>
+            </ul>
+            <input type="text" placeholder="Search...">
+        </nav>
+    </header>
+
+    <section class="hero" style="background: url('uploads/DALL·E 2025-01-16 01.37.28 - A detailed and visually striking image of a single red rose flower with velvety petals, set against a dark, almost black background. The rose is illum.webp') no-repeat center center/cover; height: 400px; display: flex; align-items: center; justify-content: center;">
+        <div class="hero-content" style="text-align: center; padding: 50px;">
+            <h1 style="margin: 0; color: white;">Get Thrilled and Paid</h1>
+            <button class="cta-button" style="padding: 10px 20px; background-color: teal; color: white; border: none; border-radius: 5px;">Get Thrilled and Paid</button>
+            <div class="wallet-segment" style="margin-top: 20px; background-color: blue; padding: 40px; border-radius: 5px;">
+                <h2>Wallet</h2>
+                <p>MAIN BAL: ₦100.00</p> <!-- Updated to Naira -->
+                <p>REFERRAL BAL: ₦50.00</p> <!-- Updated to Naira -->
+                <button onclick="window.location.href='payment.html'">Add Funds</button>
+                <button onclick="window.location.href='withdraw.html'">Withdraw Funds</button> <!-- Added withdrawal button -->
+            </div>
+        </div>
+    </section>
+
+    <main style="background-color: #222; color: white;">
+        <section class="ebook-listings">
+            <h2>Featured E-Books</h2>
+            <div class="grid">
+                <div class="ebook-item">
+                    <img src="path/to/ebook-cover.jpg" alt="E-Book Cover">
+                    <h3>E-Book Title</h3>
+                    <p>Short description of the e-book.</p>
+                    <p>Price: $9.99</p>
+                    <button onclick="window.location.href='payment.html'">Buy Now</button>
+                </div>
+                <!-- Additional E-Book items will be dynamically added here -->
+            </div>
+        </section>
+
+        <section class="blog-uploads">
+            <h2>Blog Uploads</h2>
+            <div class="gallery">
+                <div class="blog-item">
+                    <img src="path/to/blog-thumbnail.jpg" alt="Blog Thumbnail">
+                    <h3>Blog Title</h3>
+                    <p>Snippet of the blog content...</p>
+                    <button onclick="window.location.href='blog.html'">Read More</button>
+                </div>
+                <!-- Additional blog uploads will be dynamically added here -->
+            </div>
+        </section>
+
+        <section class="livefeed">
+            <h2>Live Quiz Chatroom</h2>
+            <div class="chatroom">
+                <!-- Live chat feed will be embedded here -->
+            </div>
+        </section>
+
+        <section class="media-uploads">
+            <h2>Media Uploads</h2>
+            <div class="media-grid">
+                <!-- Media uploads will be dynamically added here -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-media">
+            <!-- Social media icons will be added here -->
+        </div>
+        <div class="contact-details">
+            <p>Contact us at: contact@ark2.com</p>
+        </div>
+        <div class="newsletter">
+            <input type="email" placeholder="Subscribe to our newsletter">
+            <button>Subscribe</button>
+        </div>
+    </footer>
+
     <script src="js/scripts.js"></script>
+    <script>
+        document.getElementById('menu-button').addEventListener('click', function() {
+            const navList = document.getElementById('nav-list');
+            navList.style.display = navList.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
 </body>
 </html>
+</content>
+</create_file>
